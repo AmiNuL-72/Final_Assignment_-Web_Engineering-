@@ -1,55 +1,63 @@
+<?php include 'config/config.php'; ?>
+<?php include 'lib/Database.php'; ?>
+<?php include 'helpers/Format.php'; ?>
 <?php include 'inc/header.php'; ?>
 <?php include 'inc/slider.php'; ?>
 
+<?php
+	$db = new Database();
+	$fm = new Format();
+?>
 
-	<div class="contentsection contemplete clear">
+<div class="contentsection contemplete clear">
 		<div class="maincontent clear">
+		<!--Pagination-->
+		<?php
+			$per_page=3;
+			if(isset($_GET['page'])){
+				$page = $_GET['page'];
+			}
+			else $page=1;
+			$start_from = ($page-1) * $per_page;
+		?>
+		<!--Pagination-->
+		<?php
+			$query = "select * from tbl_post limit $start_from,$per_page";
+			$post = $db->select($query);
+			if($post){
+				while($result=$post->fetch_assoc()){			
+		?>
 			<div class="samepost clear">
-				<h2><a href="">Our post title here</a></h2>
-				<h4>December 01, 2024, 11:30 AM, By <a href="#">AmiNuL72</a></h4>
-				 <a href="#"><img src="images/post1.jpg" alt="post image"/></a>
-				<p>
-					Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.
-				</p>
-				<div class="readmore clear">
-					<a href="post.php">Read More</a>
+				<h2><a href="post.php?id=<?php echo $result['id'];?>"><?php echo $result['title'];?></a></h2>
+				<h4><?php echo $fm->formatDate($result['date']);?>, By <a href="#"><?php echo $result['author'];?></a></h4>
+				 <a href="#"><img src="admin/upload/<?php echo $result['image'];?>" alt="post image"/></a>
+				
+				 <?php echo $fm->textshort($result['body']);?>
+				
+				 <div class="readmore clear">
+				<a href="post.php?id=<?php echo $result['id'];?>">Read More</a>
 				</div>
 			</div>
-			<div class="samepost clear">
-				<h2><a href="">Our post title here</a></h2>
-				<h4>December 01, 2024, 11:30 AM, By <a href="#">AmiNuL72</a></h4>
-				 <img src="images/post2.png" alt="post image"/>
-				<p>
-					Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.
-				</p>
-				<div class="readmore clear">
-					<a href="post.php">Read More</a>
-				</div>
-			</div>
-			<div class="samepost clear">
-				<h2>Our post title here</h2>
-				<h4>December 01, 2024, 11:30 AM, By <a href="#">AmiNuL72</a></h4>
-				 <img src="images/post1.jpg" alt="post image"/>
-				<p>
-					Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.
-				</p>
-				<div class="readmore clear">
-					<a href="post.php">Read More</a>
-				</div>
-			</div>
+			<?php } ?> <!--end while loop -->
 
-		</div>
-		<div class="sidebar clear">
-			<div class="samesidebar clear">
-				<h2>Categories</h2>
-					<ul>
-						<li><a href="#">Category One</a></li>
-						<li><a href="#">Category Two</a></li>
-						<li><a href="#">Category Three</a></li>
-						<li><a href="#">Category Four</a></li>
-						<li><a href="#">Category Five</a></li>						
-					</ul>
-        </div>
+			<!--Pagination start -->
+			<?php 
+				$query = "select * from tbl_post";
+				$result = $db->select($query);
+				$total_row = mysqli_num_rows($result);
+				$total_pages = ceil($total_row/$per_page);
+
+			echo "<span class='pagination'><a href='index.php?page=1'>".'First Page'."</a>";
+			for($i=1; $i<=$total_pages; $i++){
+				echo "<a href='index.php?page=".$i."'>".$i."</a>";
+			}
+			echo "<a href='index.php?page=$total_pages'>".'Last Page'."</a></span>"?>
+			<!--Pagination end -->
+
+	<?php } else{ header("Location:404.php"); } ?>
+
+</div>
+
 
 
 <?php include 'inc/sidebar.php'; ?>
