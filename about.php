@@ -12,7 +12,7 @@
 			<p>About me..Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.</p>
 		</div>
 	</div>
-</div>
-		
-<?php include 'inc/sidebar.php'; ?>
-<?php include 'inc/footer.php'; ?>
+	
+	<?php include 'inc/sidebar.php'; ?>
+	<?php include 'inc/footer.php'; ?>
+</div>	
