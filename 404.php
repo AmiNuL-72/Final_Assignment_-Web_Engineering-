@@ -8,7 +8,8 @@
     			</div>
 	        </div>
 		</div>
+		 
+ 
 
-
-<?php include 'inc/sidebar.php'; ?>
-<?php include 'inc/footer.php'; ?>
+ <?php include 'inc/sidebar.php'; ?>
+ <?php include 'inc/footer.php'; ?>
